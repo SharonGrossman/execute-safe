@@ -1,7 +1,13 @@
 export const safe = (fn: any) => (r: any) => {
   try {
     if (fn) {
-      return fn(r);
+      const result = fn(r)
+
+      if (result instanceof Promise) {
+        return result.catch(() => r);
+      }
+
+      return result;
     }
 
     return r;
